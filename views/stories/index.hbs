@@ -1,0 +1,32 @@
+<h1>Stories</h1>
+<div class="row">
+    {{#each stories}}
+       <div class="col s12 m4">
+           <div class="card">
+               <div class="card-image">
+                   {{!-- The 'user'(first argument storyUser) here will change as we loop through each story that points to that particular user who created the story --}}
+                   {{!-- To get the logged in user(to display the edit icon) use '../user'(second arg) ../ means go outside this loop(#each stories) and grab the logged in user --}}
+                    {{!-- if you want to parse html with hbs then triple curly braces are needed as editIcon() has html syntax in it --}}
+                    {{{editIcon user ../user _id}}}
+               </div>
+               <div class="card-content center-align">
+                   <h5>{{title}}</h5>
+                   {{!-- First we are truncating (body and 150 are the arguments passed to truncate) and then removing tags --}}
+                     <p>{{stripTags (truncate body 150)}}</p>
+                     <br>
+                    <div class="chip">
+                         {{!-- we are getting image from the story.user.image as the story model is connected to a particular user present in the user model --}}
+                        <img src="{{user.image}}" alt="">
+                        {{!-- To show all the stories of a particular user --}}
+                        <a href="/stories/user/{{user._id}}">{{user.displayName}}</a>
+                    </div>
+               </div>
+               <div class="card-action center-align">
+                     <a href="/stories/{{_id}}" class="btn grey">Read More</a>
+               </div>
+           </div>
+       </div>
+    {{else}}
+       <p>No stories to display</p>
+    {{/each}}
+</div>
